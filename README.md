@@ -1,4 +1,4 @@
-# xcaddy-updater
+# caddy-update
 A work-in-progress (WIP) Bash script to automate rebuilding Caddy web server
 with plugins only when necessary.
 
