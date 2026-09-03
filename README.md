@@ -24,6 +24,12 @@ These assumptions are listed here:
 - The operating system is based on Debian such as Ubuntu or Trisquel.
 - xcaddy is installed at ./go/bin/xcaddy relative to the script.
 - xcaddy builds are installed to /usr/bin/caddy.custom
+- At least for initial development, this script is targeting only two
+  dependencies.
+  - [coraza-caddy](https://github.com/corazawaf/coraza-caddy) which adds
+    ModSecurity compatibility.
+  - [logging.encoders](https://github.com/caddyserver/transform-encoder) which
+    adds the option of saving combined log format.
 
 xcaddy is installed with this method:
 
