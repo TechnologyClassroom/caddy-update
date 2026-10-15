@@ -26,6 +26,9 @@ These assumptions are listed here:
 - xcaddy builds are installed to /usr/bin/caddy.custom
 - At least for initial development, this script is targeting only two
   dependencies.
+  - [caddy-akin](https://rud.is/git/caddy-akin/) which adds
+    [Akin](https://github.com/honeylabshq/akin)-compatible request header
+    fingerprinting.
   - [coraza-caddy](https://github.com/corazawaf/coraza-caddy) which adds
     ModSecurity compatibility.
   - [logging.encoders](https://github.com/caddyserver/transform-encoder) which
