@@ -3,6 +3,7 @@
 # caddy-update.sh
 # caddy-update.sh rebuilds caddy with coraza using xcaddy only if an update is
 # available.
+# Version 20261013
 
 # Copyright (C) 2026 Michael McMahon
 #
@@ -102,6 +103,9 @@ curl -s -H "Accept: application/vnd.github.VERSION.sha" "https://api.github.com/
 caddy list-modules --versions | grep caddy.logging.encoders.formatted | awk '{ print $2 }' | cut -d '-' -f 3
 # If local is less than upstream, update.
 
+# TODO Add caddy-akin version checks.
+#echo "Checking for caddy-akin updates..."
+
 # TMP DEBUG
 exit 0
 
@@ -109,6 +113,7 @@ exit 0
 echo "Compiling caddy..."
 ./go/bin/xcaddy build \
   --with github.com/corazawaf/coraza-caddy/v2 \
+  --with go.rud.is/caddy-akin \
   --with github.com/caddyserver/transform-encoder
 
 # TODO Check if xcaddy succeeded.
