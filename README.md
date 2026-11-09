@@ -2,40 +2,8 @@
 A work-in-progress (WIP) Bash script to automate rebuilding Caddy web server
 with plugins only when necessary.
 
-## How to use
-This is currently a WIP script so instructions may change.
-
-Read the script before running as the script is easy to read and may make
-assumptions that differ from your environment. See the Dependencies section
-of this document for more details.
-
-Currently, the script is simply run as a non-root user with sudo privileges
-with this command:
-
-    bash caddy-update.sh
-
-If the assumptions match your environment, you should be running the latest
-caddy version on the server after the script completes.
-
-## Background
-When the caddy package is installed through a package manager, caddy does not
-include additional plugins. If you want to add plugins, you need to recompile
-either manually or with xcaddy because plugins are included within the binary.
-This is a notably different architecture than NGINX and Apache2 web servers.
-
-The xcaddy project does not include automation and the consensus seems to be
-that sysadmins should be updating manually so that they know if there is a
-regression. With the rise of automated vulnerability research, updates need to
-be applied faster than when I remember or notice that an update is released for
-caddy or one of the plugins.
-
-Some automation exists with the docker method, but I have yet to see any
-scripts that check if a rebuild needs to occur. I also do not want to add
-abstraction by using docker across all of my servers. The consensus seems to be
-that it is acceptable for everyone to continuously rebuild caddy even if it is
-not needed. This is inefficiently wasteful for system and network resources.
-Why is everyone continually rebuilding if they are already running the latest
-build?
+As of 2026-11-08, this software can be considered functional and in a beta
+testing phase. Try it out. Report issues that you find. Submit patches.
 
 ## Dependencies
 
@@ -59,15 +27,14 @@ These assumptions are listed here:
 - The operating system is based on Debian such as Ubuntu or Trisquel.
 - xcaddy is installed at ./go/bin/xcaddy relative to the script.
 - xcaddy builds are installed to /usr/bin/caddy.custom
-- At least for initial development, this script is targeting only two
+- At least for initial development, this script is targeting only a few
   dependencies.
-  - [caddy-akin](https://rud.is/git/caddy-akin/) which adds
-    [Akin](https://github.com/honeylabshq/akin)-compatible request header
-    fingerprinting.
   - [coraza-caddy](https://github.com/corazawaf/coraza-caddy) which adds
     ModSecurity compatibility.
   - [logging.encoders](https://github.com/caddyserver/transform-encoder) which
     adds the option of saving combined log format.
+  - [caddy-akin](https://rud.is/git/caddy-akin) which adds Akin-compatible
+    request header fingerprinting.
 
 xcaddy is installed with this method:
 
@@ -86,6 +53,48 @@ Custom caddy builds are installed with [this method](https://caddyserver.com/doc
 If you would like to work towards making this script more robust and account
 for other variations of installation preferences, contributions are welcome
 while demands are not.
+
+## How to use
+This is currently a WIP script so instructions may change.
+
+Read the script before running as the script is easy to read and may make
+assumptions that differ from your environment.
+
+Currently, the script is simply run as a non-root user with sudo privileges
+with this command:
+
+    ./caddy-update.sh
+
+If the assumptions match your environment, you should be running the latest
+caddy version on the server after the script completes.
+
+If you want to run with verbose and dry-run modes, add the respective -v and/or
+-d switches.
+
+    ./caddy-update.sh -dv
+
+## Background
+When the caddy package is installed through a package manager, caddy does not
+include additional plugins. If you want to add plugins, you need to recompile
+either manually or with xcaddy because plugins are included within the binary.
+
+The xcaddy project does not include automation and the consensus seems to be
+that sysadmins should be updating manually so that they know if there is a
+regression. With the rise of automated vulnerability research, updates tend to
+need to be applied faster than when I remember or notice that an update is
+released for caddy or one of the plugins.
+
+Do note that complete automation with this script does place lots of trust on
+third-parties such as the developers of the extensions, the developers of the
+extensions dependencies, and the go packaging system supply chain.
+
+Some automation exists with the docker method, but I have yet to see any
+scripts that check if a rebuild needs to occur. I also do not want to add
+abstraction by using docker across all of my servers. The consensus seems to be
+that it is acceptable for everyone to continuously rebuild caddy even if it is
+not needed. This is inefficiently wasteful for system and network resources.
+Why is everyone continually rebuilding if they are already running the latest
+build? caddy-update.sh attempts to elimate that waste.
 
 ## License
 Apache-2.0
