@@ -33,8 +33,9 @@ These assumptions are listed here:
     ModSecurity compatibility.
   - [logging.encoders](https://github.com/caddyserver/transform-encoder) which
     adds the option of saving combined log format.
-  - [caddy-akin](https://rud.is/git/caddy-akin) which adds Akin-compatible
-    request header fingerprinting.
+  - [caddy-akin](https://rud.is/git/caddy-akin) which adds
+    [Akin](https://github.com/honeylabshq/akin)-compatible request header
+    fingerprinting.
 
 xcaddy is installed with this method:
 
