@@ -3,7 +3,7 @@
 # caddy-update.sh
 # caddy-update.sh rebuilds caddy with coraza using xcaddy only if an update is
 # available.
-# Version 20261108
+# Version v0.2.0
 
 # Copyright (C) 2026 Michael McMahon
 #
