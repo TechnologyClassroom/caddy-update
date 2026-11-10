@@ -58,7 +58,7 @@ while getopts ":vd" opt; do
 done
 
 # Constants
-#UPSTREAM_URL_GO="https://api.github.com/repos/golang/go/tags"
+#UPSTREAM_URL_GO="https://go.dev/VERSION?m=text"
 UPSTREAM_URL_XCADDY="https://api.github.com/repos/caddyserver/xcaddy/releases/latest"
 UPSTREAM_URL_CADDY="https://api.github.com/repos/caddyserver/caddy/releases/latest"
 UPSTREAM_URL_CORAZA="https://api.github.com/repos/corazawaf/coraza-caddy/releases/latest"
@@ -72,6 +72,8 @@ UPSTREAM_URL_LOG_ENCODER="https://api.github.com/repos/caddyserver/transform-enc
 
 # Dynamic variables
 updates_needed=false
+#ver_go_local="unknown"
+#ver_go_upstr="unknown"
 ver_xcaddy_local="unknown"
 ver_xcaddy_upstr="unknown"
 ver_caddy_local="unknown"
@@ -97,27 +99,8 @@ trap cleanup EXIT
 check_dependencies() {
   echo "Checking for dependencies..."
 
-  # Validate if dependency go exists in a $PATH directory.
-  if ! command -v go >/dev/null 2>&1; then
-    echo "Error: go is not installed or not in PATH."
-    exit 1
-    # TODO Ask if a xcaddy should attempt to be installed.
-  else
-    echo "Go version:"
-    go version \
-      | awk '{ print $3 }'
-  fi
-
-  # Validate if dependency xcaddy exists in a $PATH directory.
-  if ! command -v xcaddy >/dev/null 2>&1; then
-    echo "Error: xcaddy is not installed or not in PATH."
-    exit 1
-    # TODO Ask if a xcaddy should attempt to be installed.
-  fi
-
-  # Validate if dependencies curl and jq are present.
+  # Validate if dependencies curl, jq, bash, sudo, and coreutils are present.
   for cmd in curl jq bash sudo awk cut echo grep caddy; do
-	  bash
     if ! command -v "$cmd" >/dev/null 2>&1; then
       echo "Error: $cmd is not installed."
       exit 1
@@ -128,7 +111,21 @@ check_dependencies() {
     fi
   done
 
-  echo "All dependencies are available."
+  # Validate if dependency go exists in a $PATH directory.
+  if ! command -v go >/dev/null 2>&1; then
+    echo "Error: go is not installed or not in PATH."
+    exit 1
+    # TODO Ask if a go should attempt to be installed.
+  fi
+
+  # Validate if dependency xcaddy exists in a $PATH directory.
+  if ! command -v xcaddy >/dev/null 2>&1; then
+    echo "Error: xcaddy is not installed or not in PATH."
+    exit 1
+    # TODO Ask if a xcaddy should attempt to be installed.
+  fi
+
+  echo -e "\nAll dependencies are available."
 }
 
 # Normalize versions into an array. Echoes space-separated version parts padded
@@ -214,6 +211,12 @@ check_update() {
 check_dependencies
 
 # TODO Check if Go has a new version available.
+# TODO Ask if a go version should be fetched.
+# ver_go_local=$(go version \
+#   | awk '{ print $3 }')
+# ver_go_upstr=$(curl -fsSL "$UPSTREAM_URL_XCADDY" \
+#   | grep go \
+#   | head -n 1)
 
 # Check if xcaddy has a new version available.
 if [[ "$updates_needed" != "true" ]]; then
